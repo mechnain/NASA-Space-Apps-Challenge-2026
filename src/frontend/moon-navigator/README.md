@@ -1,4 +1,4 @@
-# Lunar Landing Navigator (3D prototype)
+# LunaLink
 
 An interactive 3D view of the Moon's south pole. Pick a landing site and a date to see whether the lander will have **sunlight for power** and **Earth in view for radio contact** during its mission.
 

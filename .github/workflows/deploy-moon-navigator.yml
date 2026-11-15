@@ -1,7 +1,7 @@
 # Deploys src/frontend/moon-navigator to Vercel.
 # Merges to main update the live site; pull requests get a preview link.
 # Needs one repository secret: VERCEL_TOKEN.
-name: Deploy Moon Navigator
+name: Deploy LunaLink
 
 on:
   push:
