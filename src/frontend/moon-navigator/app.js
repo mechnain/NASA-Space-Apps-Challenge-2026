@@ -296,7 +296,9 @@ function drawCompass(f) { const s = sites[state.sel], dpr = Math.min(2, devicePi
     const px = c + x * R0, py = c - y * R0; cg.globalAlpha = up ? 1 : .45; cg.strokeStyle = col; cg.setLineDash(up ? [] : [3 * dpr, 3 * dpr]); cg.beginPath(); cg.moveTo(c, c); cg.lineTo(px, py); cg.stroke(); cg.setLineDash([]);
     cg.fillStyle = col; cg.beginPath(); cg.arc(px, py, (key === 'sun' ? 6 : 5) * dpr, 0, 7); cg.fill();
     if (key === 'sun' && up) { cg.strokeStyle = 'rgba(236,234,229,.5)'; cg.beginPath(); cg.moveTo(c, c); cg.lineTo(c - x * R0 * .6, c + y * R0 * .6); cg.stroke(); }   // shadows fall the other way
-    cg.globalAlpha = 1; $(key === 'sun' ? 'kSun' : 'kEarth').textContent = `${name} ${m > 0 ? '+' : ''}${m.toFixed(1)}°`; $(key === 'sun' ? 'kSun' : 'kEarth').className = up ? key : 'off'; };
+    cg.globalAlpha = 1; const el = $(key === 'sun' ? 'kSun' : 'kEarth');   // the word is translated once; only the number (never translated) changes
+    if (!el.firstChild) el.innerHTML = `<span>${name}</span> <span class="notranslate" translate="no"></span>`;
+    const t = `${m > 0 ? '+' : ''}${m.toFixed(1)}°`, nv = el.lastChild; if (nv.textContent !== t) nv.textContent = t; const cl = up ? key : 'off'; if (el.className !== cl) el.className = cl; };
   one(vecAt(eph.sun, f, new THREE.Vector3()), '#fff4d6', 'Sun', 'sun'); one(vecAt(eph.earth, f, new THREE.Vector3()), '#86b6ea', 'Earth', 'earth'); }
 
 // ───────────────────────── state & cameras ─────────────────────────
@@ -666,7 +668,7 @@ function frame(now) { requestAnimationFrame(frame); const dt = Math.min(.1, (now
     while (dy < 240 && hit()) dy += 4; placed.push({ x: p.x, y: p.y - dy, w: p.l.w, h: p.l.h });
     p.l.el.style.transform = `translate(${p.x.toFixed(1)}px,${(p.y - dy).toFixed(1)}px) translateY(-100%)`; p.l.el.style.setProperty('--stem', dy + 'px'); }
   { const fd = state.mode === 'intro' ? state.f : f;   // the opening's light slides in from an earlier date; the label shows the date you will land on
-  $('utc').textContent = dateAt(fd, { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + String(new Date(T0 + fd * 6 * 36e5).getUTCHours()).padStart(2, '0') + ':00 UTC'; }
+  const ut = dateAt(fd, { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + String(new Date(T0 + fd * 6 * 36e5).getUTCHours()).padStart(2, '0') + ':00 UTC'; if ($('utc').textContent !== ut) $('utc').textContent = ut; }
 }
 addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); drawTimeline(); });
 { const c = document.createElement('canvas'); c.width = c.height = 180; const g = c.getContext('2d'), im = g.createImageData(180, 180);
