@@ -655,7 +655,8 @@ function frame(now) { requestAnimationFrame(frame); const dt = Math.min(.1, (now
   for (const p of pins) { let dy = 0; const hit = () => placed.some(q => p.x < q.x + q.w && q.x < p.x + p.l.w && p.y - dy - p.l.h < q.y && q.y - q.h < p.y - dy);
     while (dy < 240 && hit()) dy += 4; placed.push({ x: p.x, y: p.y - dy, w: p.l.w, h: p.l.h });
     p.l.el.style.transform = `translate(${p.x.toFixed(1)}px,${(p.y - dy).toFixed(1)}px) translateY(-100%)`; p.l.el.style.setProperty('--stem', dy + 'px'); }
-  $('utc').textContent = dateAt(f, { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + String(new Date(T0 + f * 6 * 36e5).getUTCHours()).padStart(2, '0') + ':00 UTC';
+  { const fd = state.mode === 'intro' ? state.f : f;   // the opening's light slides in from an earlier date; the label shows the date you will land on
+  $('utc').textContent = dateAt(fd, { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + String(new Date(T0 + fd * 6 * 36e5).getUTCHours()).padStart(2, '0') + ':00 UTC'; }
 }
 addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); drawTimeline(); });
 { const c = document.createElement('canvas'); c.width = c.height = 180; const g = c.getContext('2d'), im = g.createImageData(180, 180);
