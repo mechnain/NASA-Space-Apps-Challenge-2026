@@ -607,7 +607,7 @@ function finish() { const s = sites[state.sel], r = judge(s, state.f0); stopAudi
 
 // ───────────────────────── frame ─────────────────────────
 const sunV = new THREE.Vector3(), earthV = new THREE.Vector3(), v3 = new THREE.Vector3(); let last = performance.now(), hudT = 0, tlT = 0;
-function frame(now) { requestAnimationFrame(frame); const dt = Math.min(.1, (now - last) / 1000); last = now; if (document.body.classList.contains('ontable') !== (state.mode === 'table')) document.body.classList.toggle('ontable', state.mode === 'table');
+function frame(now) { requestAnimationFrame(frame); const dt = Math.min(.1, (now - last) / 1000); last = now; if (document.body.classList.contains('ontable') !== (state.mode === 'table')) document.body.classList.toggle('ontable', state.mode === 'table'); { const sf = state.mode === 'boots' || state.mode === 'end' || (state.mode === 'fly' && lander.visible); if (document.body.classList.contains('surface') !== sf) document.body.classList.toggle('surface', sf); }
   let f = state.f;
   if (state.mode === 'intro') {
     if (state.auto) { state.p = state.pT = clamp(state.p + state.auto * dt * 0.42, 0, 1); if (state.auto < 0 && state.p <= 0) state.auto = 0; }
