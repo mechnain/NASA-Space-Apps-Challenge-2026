@@ -257,6 +257,9 @@ body.whyopen #zoom{opacity:0;pointer-events:none}
 .hr{position:fixed;right:var(--g);top:calc(var(--g) + 44px)}#cmpw{top:calc(var(--g) + 88px);bottom:auto;right:var(--g)}#zoom{display:none}#compass{width:84px;height:84px}.acts{flex-wrap:wrap;row-gap:8px}}
 body.whyopen #cmpw,body.whyopen.ontable #cmpw{display:none}
 @media (max-width:1100px){body.whyopen .hr{visibility:hidden}}
+.langw{display:flex;align-items:center;gap:4px;pointer-events:auto;color:var(--dim);font-size:12px;border:1px solid rgba(236,234,229,.25);border-radius:20px;padding:3px 4px 3px 10px}.langw:hover{color:var(--ink);border-color:rgba(236,234,229,.6)}
+#lang{background:transparent;color:inherit;border:0;font:inherit;font-size:12px;cursor:pointer;max-width:120px;color-scheme:dark}#lang option{background:#111;color:#eee}
+body>.skiptranslate,body>[class^="VIpgJd"],.goog-te-banner-frame,.skiptranslate>iframe,#goog-gt-tt,.goog-te-balloon-frame{display:none!important}body{top:0!important}font{background:none!important;box-shadow:none!important}
 </style>
 </head>
 <body>
@@ -267,7 +270,7 @@ body.whyopen #cmpw,body.whyopen.ontable #cmpw{display:none}
 
 <header class="layer top">
   <button class="mono ink" id="home" title="Back to the start">Lunar Landing Navigator</button>
-  <span class="hr"><span class="mono" id="utc"></span><label class="dpw" title="Pick a date"><span class="mono">Pick date</span><input type="date" id="dpick" aria-label="Pick a date"></label><button class="mono" id="srcBtn">Data sources</button></span>
+  <span class="hr"><span class="notranslate mono" translate="no" id="utc"></span><label class="dpw" title="Pick a date"><span class="mono">Pick date</span><input type="date" id="dpick" aria-label="Pick a date"></label><label class="langw notranslate" title="Language"><span aria-hidden="true">文A</span><select id="lang" aria-label="Language"><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="pt">Português</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="ar">العربية</option><option value="ur">اردو</option><option value="hi">हिन्दी</option><option value="bn">বাংলা</option><option value="pa">ਪੰਜਾਬੀ</option><option value="ta">தமிழ்</option><option value="zh-CN">中文 (简体)</option><option value="zh-TW">中文 (繁體)</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="ru">Русский</option><option value="uk">Українська</option><option value="pl">Polski</option><option value="tr">Türkçe</option><option value="fa">فارسی</option><option value="id">Bahasa Indonesia</option><option value="ms">Bahasa Melayu</option><option value="vi">Tiếng Việt</option><option value="th">ไทย</option><option value="tl">Filipino</option><option value="sw">Kiswahili</option><option value="am">አማርኛ</option><option value="yo">Yorùbá</option><option value="ha">Hausa</option><option value="nl">Nederlands</option><option value="el">Ελληνικά</option><option value="he">עברית</option><option value="ne">नेपाली</option></select></label><button class="mono" id="srcBtn">Data sources</button><div id="gt" hidden></div></span>
 </header>
 
 <section class="layer" id="intro">
@@ -344,10 +347,10 @@ body.whyopen #cmpw,body.whyopen.ontable #cmpw{display:none}
 <p id="illus" class="mono hidden">Rocks and lander: illustration</p>
 <section class="layer hidden" id="hud">
   <div class="hnav"><button class="pill" id="hmap" aria-label="Back to the map"><b>&larr;</b> Map</button><button class="pill" id="hpause" aria-label="Pause"><i></i><span>Pause</span></button></div>
-  <div id="clock"><b id="cday"></b><span class="mono" id="chour"></span></div>
+  <div id="clock"><b class="notranslate" translate="no" id="cday"></b><span class="notranslate mono" translate="no" id="chour"></span></div>
   <p id="voice"></p>
   <div id="tele">
-    <div><span class="mono" id="tsun"></span><span class="mono" id="tearth"></span><span class="mono wide">Radio link <b id="bs">●</b><b id="bx" hidden></b><b id="bka" hidden></b></span><span class="mono" id="tbat"></span></div>
+    <div><span class="notranslate mono" translate="no" id="tsun"></span><span class="notranslate mono" translate="no" id="tearth"></span><span class="mono wide">Radio link <b id="bs">●</b><b id="bx" hidden></b><b id="bka" hidden></b></span><span class="notranslate mono" translate="no" id="tbat"></span></div>
     <div><span class="mono wide">Drag to look &middot; scroll to zoom &middot; Esc for map</span><button class="mono ink" id="back" hidden>Back to the map</button></div>
   </div>
 </section>
@@ -360,6 +363,6 @@ body.whyopen #cmpw,body.whyopen.ontable #cmpw{display:none}
 </section>
 
 <div class="layer" id="load"><span class="mono ink">Lunar Landing Navigator</span><span class="mono" id="loadmsg">Loading 4.2 million elevation points from LRO</span><div class="bar"><i></i></div></div>
-<script type="module" src="app.js?v=62"></script>
+<script type="module" src="app.js?v=71"></script>
 </body>
 </html>

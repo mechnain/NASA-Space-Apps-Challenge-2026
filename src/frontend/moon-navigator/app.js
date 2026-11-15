@@ -296,7 +296,9 @@ function drawCompass(f) { const s = sites[state.sel], dpr = Math.min(2, devicePi
     const px = c + x * R0, py = c - y * R0; cg.globalAlpha = up ? 1 : .45; cg.strokeStyle = col; cg.setLineDash(up ? [] : [3 * dpr, 3 * dpr]); cg.beginPath(); cg.moveTo(c, c); cg.lineTo(px, py); cg.stroke(); cg.setLineDash([]);
     cg.fillStyle = col; cg.beginPath(); cg.arc(px, py, (key === 'sun' ? 6 : 5) * dpr, 0, 7); cg.fill();
     if (key === 'sun' && up) { cg.strokeStyle = 'rgba(236,234,229,.5)'; cg.beginPath(); cg.moveTo(c, c); cg.lineTo(c - x * R0 * .6, c + y * R0 * .6); cg.stroke(); }   // shadows fall the other way
-    cg.globalAlpha = 1; $(key === 'sun' ? 'kSun' : 'kEarth').textContent = `${name} ${m > 0 ? '+' : ''}${m.toFixed(1)}°`; $(key === 'sun' ? 'kSun' : 'kEarth').className = up ? key : 'off'; };
+    cg.globalAlpha = 1; const el = $(key === 'sun' ? 'kSun' : 'kEarth');   // the word is translated once; only the number (never translated) changes
+    if (!el.firstChild) el.innerHTML = `<span>${name}</span> <span class="notranslate" translate="no"></span>`;
+    const t = `${m > 0 ? '+' : ''}${m.toFixed(1)}°`, nv = el.lastChild; if (nv.textContent !== t) nv.textContent = t; const cl = up ? key : 'off'; if (el.className !== cl) el.className = cl; };
   one(vecAt(eph.sun, f, new THREE.Vector3()), '#fff4d6', 'Sun', 'sun'); one(vecAt(eph.earth, f, new THREE.Vector3()), '#86b6ea', 'Earth', 'earth'); }
 
 // ───────────────────────── state & cameras ─────────────────────────
@@ -387,12 +389,22 @@ $('back').onclick = $('eback').onclick = $('hmap').onclick = goMap; $('home').on
 { const dp = $('dpick'), iso = t => new Date(t).toISOString().slice(0, 10); dp.min = iso(T0); dp.max = iso(T0 + FMAX * 6 * 36e5);
   dp.onclick = () => { try { dp.showPicker(); } catch (e) {} }; dp.onfocus = () => { dp.value = iso(T0 + state.f * 6 * 36e5); };
   dp.onchange = () => { if (!dp.value) return; setPlay(false); state.f = clamp((Date.parse(dp.value + 'T12:00:00Z') - T0) / (6 * 36e5), 0, FMAX); lastKey = ''; refreshSite(); drawTimeline(); }; }
-function openCompare() { const f0 = clamp(state.f, 0, FMAX), rows = sites.map((x, i) => ({ x, i, r: judge(x, f0) })).sort((a, b) => b.r.score - a.r.score || b.r.both - a.r.both);
+function openCompare() { show('cmp', true); const f0 = clamp(state.f, 0, FMAX), rows = sites.map((x, i) => ({ x, i, r: judge(x, f0) })).sort((a, b) => b.r.score - a.r.score || b.r.both - a.r.both);
   const bar = (v, c) => `<span class="bar ${c}"><i style="width:${Math.round(v * 60)}px"></i>${Math.round(v * 100)}%</span>`;
   $('cmpDate').textContent = dateAt(f0, { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + MISSION / 24 + ' days';
   $('cmpRows').innerHTML = rows.map(({ x, i, r }) => { const v = verdictOf(r); return `<tr data-i="${i}" class="${i === state.sel ? 'on' : ''}"><td>${x.name.replace(/</g, '&lt;')}${x.mine ? '<small>Your site</small>' : ''}</td><td class="${v[0]}">${v[1].replace('.', '')}${r.deadDay ? `<small>Out of power day ${r.deadDay}</small>` : ''}</td><td>${bar(r.sun, '')}</td><td>${bar(r.link, 'earth')}</td><td>${bar(r.both, '')}</td></tr>`; }).join('');
-  $('cmpRows').querySelectorAll('tr').forEach(tr => tr.onclick = () => { select(+tr.dataset.i); show('cmp', false); }); show('cmp', true); }
+  $('cmpRows').querySelectorAll('tr').forEach(tr => tr.onclick = () => { select(+tr.dataset.i); show('cmp', false); }); show('cmp', true);  retranslate(); }
 $('cmpBtn').onclick = openCompare; $('cmpx').onclick = () => show('cmp', false); $('cmp').onclick = e => { if (e.target.id === 'cmp') show('cmp', false); };
+function retranslate() { const c = document.querySelector('.goog-te-combo'), cur = c && c.value; if (!cur) return;   // Google ignores some text added after load: switch away and straight back
+  setTimeout(() => { c.value = cur === 'af' ? 'sq' : 'af'; c.dispatchEvent(new Event('change')); c.value = cur; c.dispatchEvent(new Event('change')); }, 60); }
+// language: any of Google Translate's languages, chosen from the picker; English stays the source text
+{ const sel = $('lang'), m = document.cookie.match(/googtrans=\/en\/([\w-]+)/), cur = m ? m[1] : 'en';
+  sel.value = [...sel.options].some(o => o.value === cur) ? cur : 'en';
+  const setCookie = v => { const d = location.hostname; for (const dom of ['', '; domain=' + d, '; domain=.' + d]) document.cookie = `googtrans=${v}; path=/${dom}${v ? '' : '; expires=Thu, 01 Jan 1970 00:00:00 GMT'}`; };
+  sel.onchange = () => { if (sel.value === 'en') setCookie(''); else setCookie('/en/' + sel.value); location.reload(); };
+  if (cur !== 'en') { window.__gti = () => new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'gt');
+    const sc = document.createElement('script'); sc.src = 'https://translate.google.com/translate_a/element.js?cb=__gti'; document.head.appendChild(sc);
+    document.documentElement.lang = cur; } }
 $('srcBtn').onclick = () => show('src', true); $('srcx').onclick = () => show('src', false);
 addEventListener('keydown', e => { if (e.key !== 'Escape') return;
   if (!$('cmp').classList.contains('hidden')) show('cmp', false); else if (!$('src').classList.contains('hidden')) show('src', false); else if ($('site').classList.contains('listopen')) closePicker(); else if (state.why) closeWhy(); else if (state.ui === 'plan' && state.mode === 'table') setUI('explore');
@@ -655,7 +667,8 @@ function frame(now) { requestAnimationFrame(frame); const dt = Math.min(.1, (now
   for (const p of pins) { let dy = 0; const hit = () => placed.some(q => p.x < q.x + q.w && q.x < p.x + p.l.w && p.y - dy - p.l.h < q.y && q.y - q.h < p.y - dy);
     while (dy < 240 && hit()) dy += 4; placed.push({ x: p.x, y: p.y - dy, w: p.l.w, h: p.l.h });
     p.l.el.style.transform = `translate(${p.x.toFixed(1)}px,${(p.y - dy).toFixed(1)}px) translateY(-100%)`; p.l.el.style.setProperty('--stem', dy + 'px'); }
-  $('utc').textContent = dateAt(f, { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + String(new Date(T0 + f * 6 * 36e5).getUTCHours()).padStart(2, '0') + ':00 UTC';
+  { const fd = state.mode === 'intro' ? state.f : f;   // the opening's light slides in from an earlier date; the label shows the date you will land on
+  const ut = dateAt(fd, { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' + String(new Date(T0 + fd * 6 * 36e5).getUTCHours()).padStart(2, '0') + ':00 UTC'; if ($('utc').textContent !== ut) $('utc').textContent = ut; }
 }
 addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); drawTimeline(); });
 { const c = document.createElement('canvas'); c.width = c.height = 180; const g = c.getContext('2d'), im = g.createImageData(180, 180);
