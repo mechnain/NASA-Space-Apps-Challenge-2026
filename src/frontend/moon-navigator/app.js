@@ -1,4 +1,4 @@
-// Lunar Landing Navigator — one real terrain, one real Sun, three cameras.
+// LunaLink — one real terrain, one real Sun, three cameras.
 // Terrain: LOLA 240 m south-pole DEM resampled to 300 m. Sun/Earth: JPL Horizons. Units: km.
 // Scene frame: +y is "up" at the south pole, lon 0 points to -z, lon 90E to +x. Curvature is real (1:1).
 import * as THREE from 'three';
