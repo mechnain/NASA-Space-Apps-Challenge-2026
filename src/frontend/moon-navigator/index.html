@@ -262,6 +262,11 @@ body.whyopen #cmpw,body.whyopen.ontable #cmpw{display:none}
 body>.skiptranslate,body>[class^="VIpgJd"],.goog-te-banner-frame,.skiptranslate>iframe,#goog-gt-tt,.goog-te-balloon-frame{display:none!important}body{top:0!important}font{background:none!important;box-shadow:none!important}
 @media (max-width:700px){.hr{left:var(--g);right:var(--g)!important;justify-content:flex-end;gap:6px;flex-wrap:nowrap;min-width:0}.hr>*{min-width:0;flex-shrink:1}#lang{max-width:78px}.dpw span,#srcBtn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#modes button{padding:6px 10px;font-size:12px}.top>#home{max-width:calc(50vw - 110px)}}
 @media (max-width:1200px) and (min-width:701px){.hr{position:fixed;right:var(--g);top:calc(var(--g) + 40px)}}
+/* top-right controls: always their own row under Explore/Plan, on a dark backing so they read over bright terrain */
+@media (min-width:701px){.hr{position:fixed;right:var(--g);top:calc(var(--g) + 40px)}}
+.hr #utc,.hr .dpw,.hr .langw,.hr #srcBtn{background:rgba(8,8,8,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--ink);border:1px solid rgba(236,234,229,.28);border-radius:20px;padding:5px 12px;text-shadow:none}
+.hr #srcBtn{border-bottom:1px solid rgba(236,234,229,.28)}.hr .langw{padding:3px 6px 3px 10px}.hr .dpw:hover,.hr .langw:hover,.hr #srcBtn:hover{border-color:var(--ink)}
+.top>#home{text-shadow:0 1px 10px #000}.hr .dpw span,.hr .langw{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -365,6 +370,6 @@ body>.skiptranslate,body>[class^="VIpgJd"],.goog-te-banner-frame,.skiptranslate>
 </section>
 
 <div class="layer" id="load"><span class="mono ink">Lunar Landing Navigator</span><span class="mono" id="loadmsg">Loading 4.2 million elevation points from LRO</span><div class="bar"><i></i></div></div>
-<script type="module" src="app.js?v=74"></script>
+<script type="module" src="app.js?v=75"></script>
 </body>
 </html>
