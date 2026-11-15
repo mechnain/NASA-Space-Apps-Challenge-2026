@@ -267,6 +267,9 @@ body>.skiptranslate,body>[class^="VIpgJd"],.goog-te-banner-frame,.skiptranslate>
 .hr #utc,.hr .dpw,.hr .langw,.hr #srcBtn{background:rgba(8,8,8,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:var(--ink);border:1px solid rgba(236,234,229,.28);border-radius:20px;padding:5px 12px;text-shadow:none}
 .hr #srcBtn{border-bottom:1px solid rgba(236,234,229,.28)}.hr .langw{padding:3px 6px 3px 10px}.hr .dpw:hover,.hr .langw:hover,.hr #srcBtn:hover{border-color:var(--ink)}
 .top>#home{text-shadow:0 1px 10px #000}.hr .dpw span,.hr .langw{color:var(--ink)}
+/* panels start below the top two rows (title + Explore/Plan, then the controls row) */
+@media (min-width:1101px){#why{top:calc(var(--g) + 86px);max-height:calc(100% - var(--g)*2 - 190px)}}
+@media (min-width:701px){#planp,#explore{top:calc(var(--g) + 86px)}}
 </style>
 </head>
 <body>
@@ -370,6 +373,6 @@ body>.skiptranslate,body>[class^="VIpgJd"],.goog-te-banner-frame,.skiptranslate>
 </section>
 
 <div class="layer" id="load"><span class="mono ink">Lunar Landing Navigator</span><span class="mono" id="loadmsg">Loading 4.2 million elevation points from LRO</span><div class="bar"><i></i></div></div>
-<script type="module" src="app.js?v=75"></script>
+<script type="module" src="app.js?v=76"></script>
 </body>
 </html>
