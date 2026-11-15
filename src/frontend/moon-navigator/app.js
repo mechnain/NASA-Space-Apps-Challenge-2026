@@ -519,6 +519,9 @@ state.ui = 'explore'; state.auto = 0;
 function setUI(m) { state.ui = m; document.body.classList.toggle('planmode', m === 'plan'); document.querySelectorAll('#modes button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
   show('planp', state.mode === 'table' && m === 'plan'); }
 document.querySelectorAll('#modes button').forEach(b => b.onclick = () => setUI(b.dataset.m));
+function fitPlan() { const pp = $('planp'); if (!document.body.classList.contains('planmode') || innerWidth <= 700) { pp.style.maxHeight = ''; return; }   // keep Plan above the site card
+  const room = $('site').getBoundingClientRect().top - pp.getBoundingClientRect().top - 14; pp.style.maxHeight = Math.max(160, room) + 'px'; pp.style.overflowY = 'auto'; }
+setInterval(fitPlan, 400); addEventListener('resize', fitPlan);
 function renderList() { const q = $('q').value.trim().toLowerCase();
   $('list').innerHTML = sites.map((s, i) => [s, i]).filter(([s]) => !q || (s.name + ' ' + (s.desc || '')).toLowerCase().includes(q))
     .map(([s, i]) => `<li role="option" data-i="${i}" class="${i === state.sel ? 'on' : ''}"><b>${s.name}</b><em>${s.desc || ''}</em><span class="${/Exact/.test(s.exact) ? 'ex' : ''}">${/Exact/.test(s.exact || '') ? 'Real landing site' : s.mine ? 'Your site' : ''}</span>${s.mine ? `<div class="own"><button data-e="${i}">Rename</button><button data-d="${i}">Delete</button></div>` : ''}</li>`).join('') || '<li><span>No site matches</span></li>';
