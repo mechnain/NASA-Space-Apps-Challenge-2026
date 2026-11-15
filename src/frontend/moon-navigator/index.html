@@ -166,7 +166,7 @@ body.planmode #sdesc{display:none}
 
 /* ── cleanup pass ── */
 #hint,.legend{display:none!important}
-#modes{left:50%;top:var(--g);transform:translateX(-50%)}
+#modes{left:50%;top:calc(var(--g) - 9px);transform:translateX(-50%);white-space:nowrap}
 #planp{top:calc(var(--g) + 40px)}
 #site{gap:12px}
 #sname{display:flex;align-items:center;gap:12px;font-size:clamp(30px,3.6vw,50px);line-height:1;letter-spacing:-.025em;font-weight:500;text-shadow:inherit;text-align:left}
@@ -217,7 +217,7 @@ body.planmode #sdesc{display:none}
 body.whyopen #zoom{opacity:0;pointer-events:none}
 
 /* navigation */
-.top>#home{pointer-events:auto;background:none;border:0;padding:0;cursor:pointer;text-align:left;transition:color .2s}
+.top>#home{max-width:calc(50vw - 150px);pointer-events:auto;background:none;border:0;padding:0;cursor:pointer;text-align:left;transition:color .2s}
 .top>#home:hover{color:#fff;text-decoration:underline;text-underline-offset:5px;text-decoration-color:var(--faint)}
 .hnav{position:absolute;left:var(--g);top:calc(var(--g) + 34px);display:flex;gap:8px}
 .pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:20px;font-size:14px;font-weight:500;color:var(--ink);background:rgba(10,10,10,.65);border:1px solid rgba(236,234,229,.22);backdrop-filter:blur(8px);transition:border-color .2s,background .2s}
@@ -260,6 +260,8 @@ body.whyopen #cmpw,body.whyopen.ontable #cmpw{display:none}
 .langw{display:flex;align-items:center;gap:4px;pointer-events:auto;color:var(--dim);font-size:12px;border:1px solid rgba(236,234,229,.25);border-radius:20px;padding:3px 4px 3px 10px}.langw:hover{color:var(--ink);border-color:rgba(236,234,229,.6)}
 #lang{background:transparent;color:inherit;border:0;font:inherit;font-size:12px;cursor:pointer;max-width:120px;color-scheme:dark}#lang option{background:#111;color:#eee}
 body>.skiptranslate,body>[class^="VIpgJd"],.goog-te-banner-frame,.skiptranslate>iframe,#goog-gt-tt,.goog-te-balloon-frame{display:none!important}body{top:0!important}font{background:none!important;box-shadow:none!important}
+@media (max-width:700px){.hr{left:var(--g);right:var(--g)!important;justify-content:flex-end;gap:6px;flex-wrap:nowrap;min-width:0}.hr>*{min-width:0;flex-shrink:1}#lang{max-width:78px}.dpw span,#srcBtn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#modes button{padding:6px 10px;font-size:12px}.top>#home{max-width:calc(50vw - 110px)}}
+@media (max-width:1200px) and (min-width:701px){.hr{position:fixed;right:var(--g);top:calc(var(--g) + 40px)}}
 </style>
 </head>
 <body>
@@ -363,6 +365,6 @@ body>.skiptranslate,body>[class^="VIpgJd"],.goog-te-banner-frame,.skiptranslate>
 </section>
 
 <div class="layer" id="load"><span class="mono ink">Lunar Landing Navigator</span><span class="mono" id="loadmsg">Loading 4.2 million elevation points from LRO</span><div class="bar"><i></i></div></div>
-<script type="module" src="app.js?v=71"></script>
+<script type="module" src="app.js?v=74"></script>
 </body>
 </html>
