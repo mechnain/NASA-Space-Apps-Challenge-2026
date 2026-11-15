@@ -1,0 +1,52 @@
+# Deploys src/frontend/moon-navigator to Vercel.
+# Merges to main update the live site; pull requests get a preview link.
+# Needs one repository secret: VERCEL_TOKEN.
+name: Deploy Moon Navigator
+
+on:
+  push:
+    branches: [main]
+    paths: ["src/frontend/moon-navigator/**", ".github/workflows/deploy-moon-navigator.yml"]
+  pull_request:
+    paths: ["src/frontend/moon-navigator/**", ".github/workflows/deploy-moon-navigator.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: moon-navigator-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VERCEL_ORG_ID: team_Eld87JkzyU9LNEVMCbEzKmMj
+  VERCEL_PROJECT_ID: prj_4ZXPOBgXPKLVoksBYRFpl52jllx9
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --global vercel@latest
+      - name: Deploy
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          PROD: ${{ github.event_name != 'pull_request' }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then echo "::error::Add the VERCEL_TOKEN repository secret"; exit 1; fi
+          if [ "$PROD" = "true" ]; then ENV=production; FLAG=--prod; else ENV=preview; FLAG=; fi
+          vercel pull --yes --environment=$ENV --token="$VERCEL_TOKEN"
+          url=$(vercel deploy $FLAG --yes --token="$VERCEL_TOKEN")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "Deployed: $url" >> "$GITHUB_STEP_SUMMARY"
+      - name: Comment preview link
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number,
+              body: `Preview: ${{ steps.deploy.outputs.url }}` });
