@@ -503,7 +503,7 @@ function updateInsights() { const s = sites[state.sel], f = clamp(state.f, 0, FM
   $('cEarth').classList.toggle('up', eUp); $('cEarth').querySelector('span').textContent = (eUp ? 'Earth in view · sets in ' : 'Earth hidden · back in ') + when(eTxt); $('cEarth').title = eTxt;
   { const e = 0.3, g = Math.hypot(groundY(s.P.x + e, s.P.z) - groundY(s.P.x - e, s.P.z), groundY(s.P.x, s.P.z + e) - groundY(s.P.x, s.P.z - e)) / (2 * e), sl = Math.atan(g) * DEG;
     $('slope').innerHTML = `Ground slope <b class="${sl < 5 ? 'earth' : sl < 10 ? 'ink' : 'warn'}">${sl.toFixed(1)}°</b> ${sl < 5 ? 'gentle, good for landing' : sl < 10 ? 'moderate' : 'steep, risky for landing'}<span>Averaged over 600 m; small rocks and craters can be steeper.</span>`; }
-  if (!state.why) return; const key = state.sel + ':' + Math.round(state.f * 2) + ':' + state.whyTab + state.whyBody + state.mast; if (key === insightKey) return; insightKey = key;
+  if (!state.why) return; const key = state.sel + ':' + Math.round(state.f * 2) + ':' + state.whyTab + state.whyBody + state.mast; if (key === insightKey) return; insightKey = key; clearTimeout(state.rtT); state.rtT = setTimeout(retranslate, 600);
   $('pLos').hidden = state.whyTab !== 'los'; $('pDelay').hidden = state.whyTab !== 'delay'; document.querySelectorAll('#why [data-t]').forEach(b => b.classList.toggle('on', b.dataset.t === state.whyTab));
   document.querySelectorAll('#why [data-b]').forEach(b => b.classList.toggle('on', b.dataset.b === state.whyBody));
   if (state.whyTab === 'los') drawSection(); else drawDelay(); }
