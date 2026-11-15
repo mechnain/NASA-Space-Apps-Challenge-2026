@@ -255,6 +255,8 @@ body.whyopen #zoom{opacity:0;pointer-events:none}
 @media (max-width:600px){.cmpbox th:nth-child(3),.cmpbox td:nth-child(3),.cmpbox th:nth-child(4),.cmpbox td:nth-child(4){display:none}}
 @media (max-width:700px){#utc{display:none}.hr{gap:8px}#srcBtn{font-size:10px}.dpw{padding:4px 9px}.dpw span{font-size:10px}
 .hr{position:fixed;right:var(--g);top:calc(var(--g) + 44px)}#cmpw{top:calc(var(--g) + 88px);bottom:auto;right:var(--g)}#zoom{display:none}#compass{width:84px;height:84px}.acts{flex-wrap:wrap;row-gap:8px}}
+body.whyopen #cmpw,body.whyopen.ontable #cmpw{display:none}
+@media (max-width:1100px){body.whyopen .hr{visibility:hidden}}
 </style>
 </head>
 <body>
@@ -358,6 +360,6 @@ body.whyopen #zoom{opacity:0;pointer-events:none}
 </section>
 
 <div class="layer" id="load"><span class="mono ink">Lunar Landing Navigator</span><span class="mono" id="loadmsg">Loading 4.2 million elevation points from LRO</span><div class="bar"><i></i></div></div>
-<script type="module" src="app.js?v=61"></script>
+<script type="module" src="app.js?v=62"></script>
 </body>
 </html>
